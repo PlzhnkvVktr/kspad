@@ -1,4 +1,4 @@
-package ru.avem.data.repos
+package ru.avem.common
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString

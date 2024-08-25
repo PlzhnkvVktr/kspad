@@ -31,13 +31,13 @@ fun main() = application {
     KoinApplication(application = {
         modules(appModule)
     }) {
+        val navController = rememberNavController()
         Window(
             onCloseRequest = ::exitApplication,
             title = "КСПЭМ",
             state = rememberWindowState(placement = WindowPlacement.Maximized),
             icon = painterResource("ru/logo/logo.ico")
         ) {
-            val navController = rememberNavController()
             NavHost(
                 modifier = Modifier,
                 navController = navController,

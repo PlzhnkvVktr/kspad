@@ -1,6 +1,7 @@
 package ru.avem.modules.devices.avem.avem9
 
 import androidx.compose.runtime.mutableStateOf
+import ru.avem.data.enums.DeviceID
 import ru.avem.kserialpooler.adapters.modbusrtu.ModbusRTUAdapter
 import ru.avem.kserialpooler.adapters.utils.ModbusRegister
 import ru.avem.kserialpooler.utils.TransportException
@@ -68,7 +69,7 @@ class AVEM9(
 
     fun pollVoltageAKB() {
         thread(isDaemon = true) {
-            with(CM.DeviceID.PR66) {
+            with(DeviceID.PR66) {
                 CM.startPoll(name, model.VOLTAGE_AKB) {
                     voltageAKB.value = it.toDouble()
                 }

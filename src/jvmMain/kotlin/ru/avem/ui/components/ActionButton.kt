@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -12,17 +13,26 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ActionButton (text: String, pic: ImageVector, disabled: Boolean = true, onClick: () -> Unit) {
-
+fun ActionButton (
+    text: String,
+    pic: ImageVector,
+    disabled: Boolean = true,
+    onClick: () -> Unit
+) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.width(200.dp).height(150.dp).border(2.dp, Color.DarkGray),
+        modifier = Modifier
+            .width(200.dp)
+            .height(150.dp)
+            .border(2.dp, Color.DarkGray, RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp)),
         enabled = disabled
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {

@@ -1,7 +1,6 @@
 package ru.avem.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -10,32 +9,40 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import composables.ui.ComboBox
 import org.koin.compose.koinInject
-import org.koin.java.KoinJavaComponent.getKoin
-import org.koin.java.KoinJavaComponent.inject
-import ru.avem.enums.Tests
 import ru.avem.ui.components.ActionButton
-import ru.avem.ui.screens.tests.*
+import ru.avem.ui.components.TabNavigationRow
+import ru.avem.ui.components.TestListContainer
 import ru.avem.ui.viewmodels.MainScreenViewModel
-import ru.avem.ui.viewmodels.TestScreenViewModel
 
 @Composable
-fun MainScreen (modifier: Modifier = Modifier) {
+fun MainScreen (
+    modifier: Modifier = Modifier,
+    onTestScreen: () -> Unit,
+    onProtocolScreen: () -> Unit,
+    onAdminScreen: () -> Unit,
+) {
 
     val vm = koinInject<MainScreenViewModel>()
 
+    LaunchedEffect(key1 = "Main_Screen") {
+        vm.testList.clear()
+        vm.clearTestList()
+    }
+
+    println(vm.testList)
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        TabNavigationRow(null, onProtocolScreen, onAdminScreen)
         Row (
             modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
             horizontalArrangement = Arrangement.Center
@@ -79,7 +86,35 @@ fun MainScreen (modifier: Modifier = Modifier) {
             )
             ComboBox(vm.selectedTI, modifier = Modifier.fillMaxWidth(0.8f), items = vm.typesTI)
         }
-
+        Row (
+            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).fillMaxHeight(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column (
+                modifier = Modifier
+                    .width(200.dp)
+                    .fillMaxHeight(.6f),
+                verticalArrangement = Arrangement.SpaceBetween
+            ){
+                ActionButton(
+                    text = if (!vm.allCheckedButton.value) "Выбрать все" else "Отменить все",
+                    pic = if (!vm.allCheckedButton.value) Icons.Filled.Check else Icons.Filled.Close,
+                    onClick = vm::selectAll
+                )
+                ActionButton(
+                    text = "Старт",
+                    pic = Icons.Filled.PlayArrow,
+//                    disabled = (
+//                            vm.testList.isNotEmpty()
+////                            vm.startTestButton.value
+////                                    && vm.factoryNumber.isNotEmpty()
+//                            ),
+                    onClick = { if (vm.testsListIterator.hasNext()) vm.startTests(onTestScreen) }
+                )
+            }
+            TestListContainer()
+        }
     }
 }
 

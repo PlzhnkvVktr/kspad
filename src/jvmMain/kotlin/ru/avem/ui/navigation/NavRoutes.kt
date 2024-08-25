@@ -5,5 +5,5 @@ sealed class NavRoutes(val uri: String) {
     data object TestScreen : NavRoutes("TestScreen")
     data object ProtocolScreen : NavRoutes("ProtocolScreen")
     data object AuthScreen : NavRoutes("AuthScreen")
-    data object SettingScreen : NavRoutes("SettingScreen")
+    data object AdminScreen : NavRoutes("AdminScreen")
 }

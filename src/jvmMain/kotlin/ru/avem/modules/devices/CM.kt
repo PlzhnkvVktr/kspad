@@ -1,5 +1,7 @@
 package ru.avem.modules.devices
 
+import org.koin.core.component.KoinComponent
+import ru.avem.data.enums.DeviceID
 import ru.avem.kserialpooler.Connection
 import ru.avem.kserialpooler.adapters.modbusrtu.ModbusRTUAdapter
 import ru.avem.kserialpooler.adapters.serial.SerialAdapter
@@ -17,16 +19,16 @@ import ru.avem.modules.devices.owen.th01.TH01
 import ru.avem.modules.devices.owen.trm202.TRM202
 import ru.avem.modules.devices.pm130.PM130
 
-object CM : SimplePollingModel() {
-    enum class DeviceID(val description: String) {
-        DD2_1("ПР102-21.2416.03.1"),
-        PV24("АВЭМ-3-04 U ВИУ 2000В"),
-        PAV41("PM-130P"),
-        PV61("АВЭМ-4-01"),
-        PA62("АВЭМ-7-5000"),
-        PR66("АВЭМ-9"),
-        GV240("АРН-1-24-220")
-    }
+object CM : SimplePollingModel(), KoinComponent {
+//    enum class DeviceID(val description: String) {
+//        DD2_1("ПР102-21.2416.03.1"),
+//        PV24("АВЭМ-3-04 U ВИУ 2000В"),
+//        PAV41("PM-130P"),
+//        PV61("АВЭМ-4-01"),
+//        PA62("АВЭМ-7-5000"),
+//        PR66("АВЭМ-9"),
+//        GV240("АРН-1-24-220")
+//    }
 
     private val connectionMain = Connection(
         adapterName = "CP2103 USB to RS-485",

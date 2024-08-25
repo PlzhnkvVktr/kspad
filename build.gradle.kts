@@ -49,6 +49,7 @@ kotlin {
                 implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.6"))
                 implementation("io.insert-koin:koin-core")
                 implementation("io.insert-koin:koin-compose")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1")
 //                implementation("io.insert-koin:koin-androidx-compose")
             }
         }

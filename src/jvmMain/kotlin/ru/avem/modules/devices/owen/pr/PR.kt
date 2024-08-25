@@ -1,5 +1,6 @@
 package ru.avem.modules.devices.owen.pr
 
+import kotlinx.coroutines.delay
 import ru.avem.kserialpooler.adapters.modbusrtu.ModbusRTUAdapter
 import ru.avem.kserialpooler.adapters.utils.ModbusRegister
 import ru.avem.kserialpooler.utils.TransportException
@@ -168,11 +169,19 @@ class PR(
         }
     }
 
-    fun i_max(stat: Boolean) {
+    fun i_max5(stat: Boolean) {
         if (stat) {
             onOutput01To16(2)
         } else {
             offOutput01To16(2)
+        }
+    }
+
+    fun tl50V(stat: Boolean) {
+        if (stat) {
+            onOutput01To16(3)
+        } else {
+            offOutput01To16(3)
         }
     }
 
@@ -184,6 +193,13 @@ class PR(
         }
     }
 
+    fun arn(stat: Boolean) {
+        if (stat) {
+            onOutput01To16(5)
+        } else {
+            offOutput01To16(5)
+        }
+    }
     fun mgr(stat: Boolean) {
         if (stat) {
             onOutput01To16(6)
@@ -191,7 +207,20 @@ class PR(
             offOutput01To16(6)
         }
     }
-
+    fun signal(stat: Boolean) {
+        if (stat) {
+            onOutput01To16(8)
+        } else {
+            offOutput01To16(8)
+        }
+    }
+    fun light(stat: Boolean) {
+        if (stat) {
+            onOutput01To16(7)
+        } else {
+            offOutput01To16(7)
+        }
+    }
     fun ikasA(stat: Boolean) {
         if (stat) {
             onOutput01To16(9)
@@ -220,51 +249,33 @@ class PR(
             offOutput01To16(12)
         }
     }
-    fun viu1(stat: Boolean) {
+    fun tl(stat: Boolean) {
         if (stat) {
-            onOutput17To32(1)
+            onOutput01To16(13)
         } else {
-            onOutput17To32(1)
+            offOutput01To16(13)
         }
     }
-    fun viu2(stat: Boolean) {
+    fun u_meas(stat: Boolean) {
         if (stat) {
-            onOutput17To32(2)
+            onOutput01To16(14)
         } else {
-            onOutput17To32(2)
+            offOutput01To16(14)
         }
     }
-    fun viu3(stat: Boolean) {
+    fun tl150V(stat: Boolean) {
         if (stat) {
-            onOutput17To32(3)
+            onOutput01To16(15)
         } else {
-            onOutput17To32(3)
+            offOutput01To16(15)
         }
     }
-
-    fun hh1(stat: Boolean) {
-        if (stat) {
-            onOutput17To32(4)
-        } else {
-            onOutput17To32(4)
-        }
+    suspend fun toggleSwitchMgr() {
+        onOutput01To16(16)
+        delay(500)
+        offOutput01To16(16)
     }
 
-    fun hh2(stat: Boolean) {
-        if (stat) {
-            onOutput17To32(5)
-        } else {
-            onOutput17To32(5)
-        }
-    }
-
-    fun hh3(stat: Boolean) {
-        if (stat) {
-            onOutput17To32(6)
-        } else {
-            onOutput17To32(6)
-        }
-    }
 
 
     override fun writeRequest(request: String) {}

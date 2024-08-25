@@ -1,49 +1,59 @@
 package ru.avem.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
-import ru.avem.enums.Tests
-import ru.avem.ui.screens.tests.*
+import ru.avem.ui.components.*
 import ru.avem.ui.viewmodels.TestScreenViewModel
 
 @Composable
-fun TestScreen(modifier: Modifier) {
+fun TestScreen(
+    modifier: Modifier,
+    onMainScreen: () -> Unit
+) {
 
     val vm = koinInject<TestScreenViewModel>()
+
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = modifier
+            .fillMaxSize()
     ) {
-        when (vm.currentTest) {
-            Tests.MGR -> MGRScreen()
-            Tests.VIU -> VIUScreen()
-            Tests.IKAS -> IKASScreen()
-            Tests.HH -> HHScreen()
-            Tests.MV -> MVScreen()
-        }
-        Row {
-            Button(
-                onClick = { vm.prev() },
-                enabled = vm.testsListIterator.hasPrevious()
+        TestWindowTitle(vm.currentTest.testName)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(.63f)
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(11f)
+                    .padding(10.dp)
             ) {
-                Text("Prev")
+                SpecifiedParamsList(vm)
             }
-            Button(
-                onClick = { vm.next() },
-                enabled = vm.testsListIterator.hasNext()
+            Column(
+                modifier = Modifier
+                    .weight(89f)
+                    .padding(10.dp)
             ) {
-                Text("Next")
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(1.dp, Color.Black, RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                ) {
+                    vm.currentTest.view.invoke()
+                }
             }
         }
+        TestNavigation(vm, onMainScreen)
+        LogsList()
+        ProtectionBar()
     }
 }

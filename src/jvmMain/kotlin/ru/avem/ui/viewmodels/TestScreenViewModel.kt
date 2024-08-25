@@ -1,34 +1,45 @@
 package ru.avem.ui.viewmodels
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import org.koin.core.Koin
+import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
-import ru.avem.enums.Tests
-import java.util.*
-import javax.naming.Context
+import org.koin.core.component.inject
+import ru.avem.data.models.TestObject
 
 class TestScreenViewModel() : ViewModel(), KoinComponent {
-    val testsListIterator = LinkedList(Tests.values().asList()).listIterator()
-    var currentTest by mutableStateOf(testsListIterator.next())
-    val a = mutableStateOf("ssdfsdfsdffds")
 
+    val mainVM by inject<MainScreenViewModel>()
+
+    var isButtonDisabled by mutableStateOf(true)
+    var isDialog by mutableStateOf(false)
+    var waiting by mutableStateOf(true)
+
+    var currentTest by mutableStateOf(mainVM.testsListIterator.next())
     fun next() {
-        if (!testsListIterator.hasNext() && testsListIterator.next() != currentTest) return
-        currentTest = testsListIterator.next()
+        if (!mainVM.testsListIterator.hasNext() && mainVM.testsListIterator.next() != currentTest) return
+        currentTest = mainVM.testsListIterator.next()
+    }
+    fun prev() {
+        if (!mainVM.testsListIterator.hasPrevious() && mainVM.testsListIterator.previous() != currentTest) return
+        currentTest = mainVM.testsListIterator.previous()
+    }
+    suspend fun disableButton () {
+        isButtonDisabled = false
+        delay(1000)
+        isButtonDisabled = true
     }
 
-    fun prev() {
-        if (!testsListIterator.hasPrevious() && testsListIterator.previous() != currentTest) return
-        currentTest = testsListIterator.previous()
-    }
+    var testItem = TestObject()
+
+    var u_a: MutableState<String> = mutableStateOf("")
+    var u_uv: MutableState<String> = mutableStateOf("")
+    var u_vw: MutableState<String> = mutableStateOf("")
+    var u_wu: MutableState<String> = mutableStateOf("")
+    var i_u: MutableState<String> = mutableStateOf("")
+    var i_v: MutableState<String> = mutableStateOf("")
+    var i_w: MutableState<String> = mutableStateOf("")
+    var cos: MutableState<String> = mutableStateOf("")
+    var pA: MutableState<String> = mutableStateOf("")
 
 }
