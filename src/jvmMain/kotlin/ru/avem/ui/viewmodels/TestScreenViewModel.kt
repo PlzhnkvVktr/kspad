@@ -16,10 +16,9 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
     var isButtonDisabled by mutableStateOf(true)
     var isDialog by mutableStateOf(false)
     var waiting by mutableStateOf(true)
-
+    var order by mutableStateOf(0)
 
     var currentTest by mutableStateOf(mainVM.testsListIterator.next())
-
 
     fun next() {
         if (!mainVM.testsListIterator.hasNext() && mainVM.testsListIterator.next() != currentTest) return
@@ -38,11 +37,6 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
 //    var testItem = TestObject()
 
     val listTestItems = mainVM.listTestItems
-    val testObjectInfo = mutableStateOf<TestItem?>(null)
-
-    fun getTestObjectInfo(name: String) {
-        testObjectInfo.value = name.let { DBManager.getTI(it) }
-    }
 
     var u_a: MutableState<String> = mutableStateOf("")
     var u_uv: MutableState<String> = mutableStateOf("")

@@ -35,7 +35,7 @@ fun TestScreen(
                     .weight(11f)
                     .padding(10.dp)
             ) {
-                SpecifiedParamsList(vm)
+                SpecifiedParamsList(vm.listTestItems[vm.order])
             }
             Column(
                 modifier = Modifier
@@ -55,5 +55,19 @@ fun TestScreen(
         TestNavigation(vm, onMainScreen)
         LogsList(vm.currentTest.controller)
         ProtectionBar()
+
+        if (vm.isDialog) {
+            TestDialog(vm.currentTest.warning,
+                true,
+                { vm.isDialog = false },
+                {
+                    vm.currentTest.controller.isRun = false
+                    vm.isDialog = false
+                }
+            )
+        }
+        if (vm.currentTest.controller.isStartButton.value) {
+            TestDialog()
+        }
     }
 }

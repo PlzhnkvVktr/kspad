@@ -28,20 +28,12 @@ import ru.avem.ui.viewmodels.TestScreenViewModel
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
-val time = mutableStateOf(100L)
 
 fun main() = application {
 
     KoinApplication(application = {
         modules(appModule)
     }) {
-        thread {
-            while (true) {
-                time.value = System.currentTimeMillis()
-                sleep(1000)
-                println("555")
-            }
-        }
         val navController = rememberNavController()
         Window(
             onCloseRequest = ::exitApplication,

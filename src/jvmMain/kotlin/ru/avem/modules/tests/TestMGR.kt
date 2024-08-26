@@ -8,13 +8,13 @@ import ru.avem.modules.devices.avem.avem9.AVEM9Model
 
 class TestMGR : Test() {
     override suspend fun start() {
-//        initDevices()
         repeat(vm.listTestItems.size) {
-            appendMessageToLog("Измерение завершено успешно", LogType.MESSAGE)
+            vm.order = it
+            initDevices()
             if (isRun) pr102.toggleSwitchMgr()
             if (isRun) initAVEM9()
             if (isRun) {
-                vm.listTestItems[it].specifiedMgrU.value = testObject.u_mgr
+//                vm.listTestItems[it].specifiedMgrU.value = testObject.u_mgr
                 var timer = 300
                 while (vm.isDialog && timer > 0) {
                     delay(100)
@@ -46,15 +46,15 @@ class TestMGR : Test() {
             if (isRun) {
                 pr66.startMeasurement(
                     AVEM9Model.MeasurementMode.AbsRatio, when {
-                        testObject.u_mgr.toInt() == 2500 -> {
+                        vm.listTestItems[it].selectedTI!!.u_mgr.toInt() == 2500 -> {
                             AVEM9Model.SpecifiedVoltage.V2500
                         }
 
-                        testObject.u_mgr.toInt() == 1000 -> {
+                        vm.listTestItems[it].selectedTI!!.u_mgr.toInt() == 1000 -> {
                             AVEM9Model.SpecifiedVoltage.V1000
                         }
 
-                        testObject.u_mgr.toInt() == 500 -> {
+                        vm.listTestItems[it].selectedTI!!.u_mgr.toInt() == 500 -> {
                             AVEM9Model.SpecifiedVoltage.V500
                         }
 

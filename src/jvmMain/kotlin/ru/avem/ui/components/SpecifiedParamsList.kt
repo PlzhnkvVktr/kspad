@@ -16,10 +16,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.avem.data.models.TestObject
 import ru.avem.ui.viewmodels.TestScreenViewModel
 
 @Composable
-fun SpecifiedParamsList(vm: TestScreenViewModel) {
+fun SpecifiedParamsList(testObject: TestObject) {
 
     Column (
         modifier = Modifier
@@ -33,11 +34,11 @@ fun SpecifiedParamsList(vm: TestScreenViewModel) {
     ) {
         Text(text = "Номинальные параметры", style = MaterialTheme.typography.h5, textAlign = TextAlign.Center)
 
-//        SpecifiedParamsItem("Наименование", vm.testItem.name.value)
-//        SpecifiedParamsItem("Схема", vm.testItem.name.value)
-//        SpecifiedParamsItem("Ток, A", vm.testItem.name.value)
-//        SpecifiedParamsItem("Напряжение, U", vm.testItem.name.value)
-//        SpecifiedParamsItem("Мощность, P", vm.testItem.name.value)
+        SpecifiedParamsItem("Наименование", testObject.selectedTI?.name.toString())
+        SpecifiedParamsItem("Схема", testObject.selectedTI?.scheme.toString())
+        SpecifiedParamsItem("Ток, A", testObject.selectedTI?.i.toString())
+        SpecifiedParamsItem("Напряжение, U", testObject.selectedTI?.u_linear.toString())
+        SpecifiedParamsItem("Мощность, P", testObject.selectedTI?.power.toString())
 
     }
 }

@@ -74,7 +74,7 @@ open class CustomController: KoinComponent {
     var isStartButton = mutableStateOf(false)
 
     var testObjectName = mutableStateOf("")
-    lateinit var testObject: TestItem
+//    lateinit var testObject: TestItem
 
     fun appendMessageToLog(text: String, type: LogType = LogType.DEBUG) {
         println("===> " + logMessages.size)

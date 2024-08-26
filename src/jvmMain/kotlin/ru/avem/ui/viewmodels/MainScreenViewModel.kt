@@ -16,10 +16,7 @@ import java.util.*
 class MainScreenViewModel() : ViewModel(), KoinComponent {
 
     val db by inject<DBManager>()
-
-    var factoryNumber by mutableStateOf("")
     var typesTI = db.getAllTI().ifEmpty { listOf("") }
-    var selectedTI = mutableStateOf(typesTI.first())
 
     var selectedTI1 = mutableStateOf(typesTI.first())
     var selectedTI2 = mutableStateOf(typesTI.first())
@@ -77,13 +74,13 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
 //            navigator.push(testsLine.value.next())
 
         if (card1.value && factoryNumber1.value.isNotEmpty()) {
-            listTestItems.add(TestObject(name = factoryNumber1))
+            listTestItems.add(TestObject(name = factoryNumber1, selectedTI = db.getTI(selectedTI1.value)))
         }
         if (card2.value && factoryNumber2.value.isNotEmpty()) {
-            listTestItems.add(TestObject(name = factoryNumber2))
+            listTestItems.add(TestObject(name = factoryNumber2, selectedTI = db.getTI(selectedTI2.value)))
         }
         if (card3.value && factoryNumber3.value.isNotEmpty()) {
-            listTestItems.add(TestObject(name = factoryNumber3))
+            listTestItems.add(TestObject(name = factoryNumber3, selectedTI = db.getTI(selectedTI3.value)))
         }
             testsListIterator = LinkedList(Tests.values().asList().filter { it.check.value }).listIterator()
             Tests.values().forEach { item -> item.check.value = false }

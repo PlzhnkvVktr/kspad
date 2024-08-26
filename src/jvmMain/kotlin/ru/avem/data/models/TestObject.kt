@@ -2,9 +2,12 @@ package ru.avem.data.models
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import ru.avem.data.db.TestItem
 
 data class TestObject(
     val name: MutableState<String> = mutableStateOf(""),
+
+    var selectedTI: TestItem? = null,
 
     //mgr
     var specifiedMgrU: MutableState<String> = mutableStateOf(""),

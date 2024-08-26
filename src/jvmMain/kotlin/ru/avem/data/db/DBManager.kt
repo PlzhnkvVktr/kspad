@@ -42,6 +42,25 @@ object DBManager: KoinComponent {
                 r20_min = "0",
                 t = "0.00425"
             )
+            addTI(
+                name = "Htcbnbbb",
+                scheme = true,
+                power = "21",
+                u_linear = "400",
+                i = "20",
+                i_viu = "0.2",
+                i_mz = "60",
+                u_viu = "1760",
+                u_mgr = "1000",
+                t_viu = "60",
+                t_hh = "60",
+                t_mv = "10",
+                r_max = "200000",
+                r_min = "500",
+                r20_max = "0",
+                r20_min = "0",
+                t = "0.00425"
+            )
         }
     }
 
