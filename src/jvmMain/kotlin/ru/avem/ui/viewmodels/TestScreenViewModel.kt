@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import ru.avem.data.db.DBManager
+import ru.avem.data.db.TestItem
 import ru.avem.data.models.TestObject
 
 class TestScreenViewModel() : ViewModel(), KoinComponent {
@@ -15,7 +17,10 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
     var isDialog by mutableStateOf(false)
     var waiting by mutableStateOf(true)
 
+
     var currentTest by mutableStateOf(mainVM.testsListIterator.next())
+
+
     fun next() {
         if (!mainVM.testsListIterator.hasNext() && mainVM.testsListIterator.next() != currentTest) return
         currentTest = mainVM.testsListIterator.next()
@@ -30,7 +35,14 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
         isButtonDisabled = true
     }
 
-    var testItem = TestObject()
+//    var testItem = TestObject()
+
+    val listTestItems = mainVM.listTestItems
+    val testObjectInfo = mutableStateOf<TestItem?>(null)
+
+    fun getTestObjectInfo(name: String) {
+        testObjectInfo.value = name.let { DBManager.getTI(it) }
+    }
 
     var u_a: MutableState<String> = mutableStateOf("")
     var u_uv: MutableState<String> = mutableStateOf("")

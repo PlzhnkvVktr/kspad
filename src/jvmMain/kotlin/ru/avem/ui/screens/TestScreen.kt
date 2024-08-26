@@ -53,7 +53,7 @@ fun TestScreen(
             }
         }
         TestNavigation(vm, onMainScreen)
-        LogsList()
+        LogsList(vm.currentTest.controller)
         ProtectionBar()
     }
 }

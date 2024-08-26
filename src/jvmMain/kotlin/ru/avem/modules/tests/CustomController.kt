@@ -70,15 +70,17 @@ open class CustomController: KoinComponent {
     var izmState = false
     var indState = false
 
-    val logMessages = mutableStateListOf<LogMessage>()
+    val logMessages = mutableStateListOf<LogMessage>(LogMessage("sss", LogType.ERROR))
     var isStartButton = mutableStateOf(false)
 
     var testObjectName = mutableStateOf("")
     lateinit var testObject: TestItem
 
     fun appendMessageToLog(text: String, type: LogType = LogType.DEBUG) {
+        println("===> " + logMessages.size)
         val msg = "${SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis())} | $text"
         logMessages.add(LogMessage(msg, type))
+        println("===> " + logMessages.size)
     }
 
     fun initWatchDogDD2() {

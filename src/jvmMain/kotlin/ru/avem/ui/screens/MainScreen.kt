@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import composables.ui.ComboBox
 import org.koin.compose.koinInject
+import ru.avem.components.TestObjectCard
 import ru.avem.ui.components.ActionButton
 import ru.avem.ui.components.TabNavigationRow
 import ru.avem.ui.components.TestListContainer
@@ -34,6 +35,7 @@ fun MainScreen (
     LaunchedEffect(key1 = "Main_Screen") {
         vm.testList.clear()
         vm.clearTestList()
+        vm.listTestItems.clear()
     }
 
     println(vm.testList)
@@ -44,48 +46,59 @@ fun MainScreen (
     ) {
         TabNavigationRow(null, onProtocolScreen, onAdminScreen)
         Row (
-            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text("Заполните все поля",  style = MaterialTheme.typography.h3)
-        }
-        Row (
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.35f),
             horizontalArrangement = Arrangement.SpaceAround,
-            Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                modifier = Modifier.width(200.dp),
-                text = "Заводской номер",
-                style = MaterialTheme.typography.h5,
-            )
-            OutlinedTextField(
-                value = vm.factoryNumber,
-                modifier = Modifier
-                    .fillMaxWidth(0.8f),
-                textStyle = MaterialTheme.typography.h5,
-                placeholder =  {
-                    Text(
-                        text = "Введите серийный номер",
-                        style = MaterialTheme.typography.h5,
-                        modifier = Modifier.padding(top = 6.dp),
-                        color = Color.Red
-                    ) },
-                onValueChange = {vm.factoryNumber = it}
-            )
+            TestObjectCard(vm, vm.factoryNumber1, vm.selectedTI1, vm.card1)
+            TestObjectCard(vm, vm.factoryNumber2, vm.selectedTI2, vm.card2)
+            TestObjectCard(vm, vm.factoryNumber3, vm.selectedTI3, vm.card3)
         }
-        Row (
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.width(200.dp),
-                text = "Тип",
-                style = MaterialTheme.typography.h5
-            )
-            ComboBox(vm.selectedTI, modifier = Modifier.fillMaxWidth(0.8f), items = vm.typesTI)
-        }
+//        Row (
+//            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+//            horizontalArrangement = Arrangement.Center
+//        ) {
+//            Text("Заполните все поля",  style = MaterialTheme.typography.h3)
+//        }
+//        Row (
+//            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
+//            horizontalArrangement = Arrangement.SpaceAround,
+//            Alignment.CenterVertically
+//        ) {
+//            Text(
+//                modifier = Modifier.width(200.dp),
+//                text = "Заводской номер",
+//                style = MaterialTheme.typography.h5,
+//            )
+//            OutlinedTextField(
+//                value = vm.factoryNumber,
+//                modifier = Modifier
+//                    .fillMaxWidth(0.8f),
+//                textStyle = MaterialTheme.typography.h5,
+//                placeholder =  {
+//                    Text(
+//                        text = "Введите серийный номер",
+//                        style = MaterialTheme.typography.h5,
+//                        modifier = Modifier.padding(top = 6.dp),
+//                        color = Color.Red
+//                    ) },
+//                onValueChange = {vm.factoryNumber = it}
+//            )
+//        }
+//        Row (
+//            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
+//            horizontalArrangement = Arrangement.SpaceAround,
+//            Alignment.CenterVertically
+//        ) {
+//            Text(
+//                modifier = Modifier.width(200.dp),
+//                text = "Тип",
+//                style = MaterialTheme.typography.h5
+//            )
+//            ComboBox(vm.selectedTI, modifier = Modifier.fillMaxWidth(0.8f), items = vm.typesTI)
+//        }
         Row (
             modifier = Modifier.fillMaxWidth().padding(top = 10.dp).fillMaxHeight(),
             horizontalArrangement = Arrangement.SpaceAround,

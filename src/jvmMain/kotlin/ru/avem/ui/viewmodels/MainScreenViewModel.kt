@@ -8,6 +8,7 @@ import org.koin.core.component.inject
 import org.koin.core.component.KoinComponent
 import ru.avem.data.db.DBManager
 import ru.avem.data.enums.Tests
+import ru.avem.data.models.TestObject
 import ru.avem.modules.tests.*
 import ru.avem.ui.navigation.NavRoutes
 import java.util.*
@@ -20,8 +21,24 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
     var typesTI = db.getAllTI().ifEmpty { listOf("") }
     var selectedTI = mutableStateOf(typesTI.first())
 
+    var selectedTI1 = mutableStateOf(typesTI.first())
+    var selectedTI2 = mutableStateOf(typesTI.first())
+    var selectedTI3 = mutableStateOf(typesTI.first())
+
+
+    var factoryNumber1 = mutableStateOf("")
+    var factoryNumber2 = mutableStateOf("")
+    var factoryNumber3 = mutableStateOf("")
+
+    var card1 = mutableStateOf(true)
+    var card2 = mutableStateOf(false)
+    var card3 = mutableStateOf(false)
+
+
     var testList = mutableListOf<Tests>()
     var testsListIterator = LinkedList(testList).listIterator()
+
+    var listTestItems = mutableListOf<TestObject>()
 
     var startTestButton: MutableState<Boolean> = mutableStateOf(false)
     var allCheckedButton: MutableState<Boolean> = mutableStateOf(false)
@@ -58,12 +75,21 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
 //            CustomController.testObjectName.value = selectedTI.value
 //            CustomController.testObject = DBManager.getTI(CustomController.testObjectName.value)
 //            navigator.push(testsLine.value.next())
+
+        if (card1.value && factoryNumber1.value.isNotEmpty()) {
+            listTestItems.add(TestObject(name = factoryNumber1))
+        }
+        if (card2.value && factoryNumber2.value.isNotEmpty()) {
+            listTestItems.add(TestObject(name = factoryNumber2))
+        }
+        if (card3.value && factoryNumber3.value.isNotEmpty()) {
+            listTestItems.add(TestObject(name = factoryNumber3))
+        }
             testsListIterator = LinkedList(Tests.values().asList().filter { it.check.value }).listIterator()
             Tests.values().forEach { item -> item.check.value = false }
 
             startTestButton.value = false
             allCheckedButton.value = false
-        println("---> " + testList)
             onSubmit()
 //        }
     }

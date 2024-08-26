@@ -24,10 +24,9 @@ import ru.avem.ui.viewmodels.MainScreenViewModel
 
 
 @Composable
-fun LogsList () {
+fun LogsList (testController: CustomController) {
     val logScrollState = rememberLazyListState()
     val scope = CoroutineScope(Dispatchers.Main)
-    val testController = koinInject<CustomController>()
 
     Row (
         modifier = Modifier
@@ -43,12 +42,12 @@ fun LogsList () {
             logScrollState
         ) {
             items(testController.logMessages.size) { index ->
+
                 Text(
                     text = testController.logMessages[index].text,
                     modifier = Modifier.padding(3.dp).fillMaxWidth(),
                     style = MaterialTheme.typography.h5,
-                    color =
-                    when (testController.logMessages[index].type) {
+                    color = when (testController.logMessages[index].type) {
                         LogType.ERROR -> MaterialTheme.colors.error
                         LogType.MESSAGE -> MaterialTheme.colors.primaryVariant
                         LogType.DEBUG -> MaterialTheme.colors.secondary

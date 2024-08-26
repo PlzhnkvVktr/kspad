@@ -33,11 +33,11 @@ fun SpecifiedParamsList(vm: TestScreenViewModel) {
     ) {
         Text(text = "Номинальные параметры", style = MaterialTheme.typography.h5, textAlign = TextAlign.Center)
 
-        SpecifiedParamsItem("Наименование", vm.testItem.name.value)
-        SpecifiedParamsItem("Схема", vm.testItem.name.value)
-        SpecifiedParamsItem("Ток, A", vm.testItem.name.value)
-        SpecifiedParamsItem("Напряжение, U", vm.testItem.name.value)
-        SpecifiedParamsItem("Мощность, P", vm.testItem.name.value)
+//        SpecifiedParamsItem("Наименование", vm.testItem.name.value)
+//        SpecifiedParamsItem("Схема", vm.testItem.name.value)
+//        SpecifiedParamsItem("Ток, A", vm.testItem.name.value)
+//        SpecifiedParamsItem("Напряжение, U", vm.testItem.name.value)
+//        SpecifiedParamsItem("Мощность, P", vm.testItem.name.value)
 
     }
 }

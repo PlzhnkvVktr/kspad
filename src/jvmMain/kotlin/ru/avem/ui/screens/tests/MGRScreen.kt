@@ -28,14 +28,14 @@ fun MGRScreen() {
             TableCell(text = "kабс")
             TableCell(text = "Результат")
         }
-        repeat(3) {
+        repeat(vm.listTestItems.size) {
             Row() {
-                TableCell(text = (it + 1).toString())
-                TableCell(text = vm.testItem.mgrU.value)
-                TableCell(text = vm.testItem.r15.value)
-                TableCell(text = vm.testItem.r60.value)
-                TableCell(text = vm.testItem.kABS.value)
-                TableCell(text = vm.testItem.res_mgr.value)
+                TableCell(text = vm.listTestItems[it].name.value)
+                TableCell(text = vm.listTestItems[it].mgrU.value)
+                TableCell(text = vm.listTestItems[it].r15.value)
+                TableCell(text = vm.listTestItems[it].r60.value)
+                TableCell(text = vm.listTestItems[it].kABS.value)
+                TableCell(text = vm.listTestItems[it].res_mgr.value)
             }
         }
     }
