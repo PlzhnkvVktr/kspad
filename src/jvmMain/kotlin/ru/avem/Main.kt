@@ -39,7 +39,9 @@ fun main() = application {
             onCloseRequest = ::exitApplication,
             title = "КСПЭМ",
             state = rememberWindowState(placement = WindowPlacement.Maximized),
-            icon = painterResource("ru/logo/logo.ico")
+            icon = painterResource("ru/logo/logo.ico"),
+            undecorated = true,
+            resizable = false
         ) {
             NavHost(
                 modifier = Modifier,

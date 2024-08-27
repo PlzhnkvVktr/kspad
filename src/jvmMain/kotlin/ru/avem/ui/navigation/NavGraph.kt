@@ -24,6 +24,13 @@ fun NavGraphBuilder.buildNavGraph(navController: NavController) {
                     }
                 }
             },
+            onTestObjectScreen = {
+                navController.navigate(route = NavRoutes.TestObjectScreen.uri) {
+                    popUpTo(NavRoutes.TestObjectScreen.uri) {
+                        inclusive = true
+                    }
+                }
+            },
             onAdminScreen = {
                 navController.navigate(route = NavRoutes.AdminScreen.uri) {
                     popUpTo(NavRoutes.AdminScreen.uri) {
@@ -38,7 +45,33 @@ fun NavGraphBuilder.buildNavGraph(navController: NavController) {
             modifier = Modifier,
             onMainScreen = {
                 navController.navigate(route = NavRoutes.MainScreen.uri) {
+                    popUpTo(NavRoutes.MainScreen.uri) {
+                        inclusive = true
+                    }
+                }
+            }
+        )
+    }
+    composable(route = NavRoutes.TestObjectScreen.uri) {
+        TestObjectScreen(
+            modifier = Modifier,
+            onMainScreen = {
+                navController.navigate(route = NavRoutes.MainScreen.uri) {
                     popUpTo(NavRoutes.TestScreen.uri) {
+                        inclusive = true
+                    }
+                }
+            },
+            onProtocolScreen = {
+                navController.navigate(route = NavRoutes.ProtocolScreen.uri) {
+                    popUpTo(NavRoutes.ProtocolScreen.uri) {
+                        inclusive = true
+                    }
+                }
+            },
+            onAdminScreen = {
+                navController.navigate(route = NavRoutes.AdminScreen.uri) {
+                    popUpTo(NavRoutes.AdminScreen.uri) {
                         inclusive = true
                     }
                 }
@@ -51,6 +84,13 @@ fun NavGraphBuilder.buildNavGraph(navController: NavController) {
             onMainScreen = {
                 navController.navigate(route = NavRoutes.MainScreen.uri) {
                     popUpTo(NavRoutes.TestScreen.uri) {
+                        inclusive = true
+                    }
+                }
+            },
+            onTestObjectScreen = {
+                navController.navigate(route = NavRoutes.TestObjectScreen.uri) {
+                    popUpTo(NavRoutes.TestObjectScreen.uri) {
                         inclusive = true
                     }
                 }
@@ -70,6 +110,13 @@ fun NavGraphBuilder.buildNavGraph(navController: NavController) {
             onMainScreen = {
                 navController.navigate(route = NavRoutes.MainScreen.uri) {
                     popUpTo(NavRoutes.TestScreen.uri) {
+                        inclusive = true
+                    }
+                }
+            },
+            onTestObjectScreen = {
+                navController.navigate(route = NavRoutes.TestObjectScreen.uri) {
+                    popUpTo(NavRoutes.TestObjectScreen.uri) {
                         inclusive = true
                     }
                 }

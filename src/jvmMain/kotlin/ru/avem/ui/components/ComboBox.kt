@@ -26,7 +26,8 @@ fun <T> ComboBox(
     onDismissState: () -> Unit = {},
     items: List<T>,
     isEditable: Boolean = true,
-    height: Int = 260
+    height: Int = 260,
+    onClick: () -> Unit = {}
 ) {
     var expandedState by remember {
         mutableStateOf(false)
@@ -42,7 +43,7 @@ fun <T> ComboBox(
                 expandedState = true
             }.fillMaxWidth().height(64.dp),
         ) {
-            Text(selectedItem.value.toString(), modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.h5)
+            Text(selectedItem.value.toString(), modifier = Modifier.padding(10.dp), style = MaterialTheme.typography.h5)
             Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
         }
         if (isEditable) {
@@ -67,6 +68,7 @@ fun <T> ComboBox(
                         item {
                             DropdownMenuItem(modifier = Modifier.fillMaxWidth().height(64.dp), onClick = {
                                 selectedItem.value = item
+                                onClick()
                                 expandedState = false
                             }) {
                                 Text(item.toString(), style = MaterialTheme.typography.h5)

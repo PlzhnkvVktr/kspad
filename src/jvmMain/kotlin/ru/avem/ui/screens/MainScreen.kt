@@ -27,6 +27,7 @@ fun MainScreen (
     modifier: Modifier = Modifier,
     onTestScreen: () -> Unit,
     onProtocolScreen: () -> Unit,
+    onTestObjectScreen: () -> Unit,
     onAdminScreen: () -> Unit,
 ) {
 
@@ -44,7 +45,7 @@ fun MainScreen (
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        TabNavigationRow(null, onProtocolScreen, onAdminScreen)
+        TabNavigationRow(null, onProtocolScreen, onTestObjectScreen, onAdminScreen)
         Row (
             modifier = Modifier
                 .fillMaxWidth()

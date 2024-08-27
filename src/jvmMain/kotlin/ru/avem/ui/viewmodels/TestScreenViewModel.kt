@@ -7,6 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.avem.data.db.DBManager
 import ru.avem.data.db.TestItem
+import ru.avem.data.enums.Tests
 import ru.avem.data.models.TestObject
 
 class TestScreenViewModel() : ViewModel(), KoinComponent {
@@ -18,7 +19,7 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
     var waiting by mutableStateOf(true)
     var order by mutableStateOf(0)
 
-    var currentTest by mutableStateOf(mainVM.testsListIterator.next())
+    var currentTest: Tests by mutableStateOf(mainVM.testsListIterator.next())
 
     fun next() {
         if (!mainVM.testsListIterator.hasNext() && mainVM.testsListIterator.next() != currentTest) return

@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -15,7 +16,7 @@ import ru.avem.ui.viewmodels.TestScreenViewModel
 @Composable
 fun TestScreen(
     modifier: Modifier,
-    onMainScreen: () -> Unit
+    onMainScreen: () -> Unit,
 ) {
 
     val vm = koinInject<TestScreenViewModel>()
@@ -35,7 +36,7 @@ fun TestScreen(
                     .weight(11f)
                     .padding(10.dp)
             ) {
-                SpecifiedParamsList(vm.listTestItems[vm.order])
+                SpecifiedParamsList()
             }
             Column(
                 modifier = Modifier

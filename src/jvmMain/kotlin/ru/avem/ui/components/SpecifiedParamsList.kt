@@ -16,11 +16,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.koin.compose.koinInject
 import ru.avem.data.models.TestObject
 import ru.avem.ui.viewmodels.TestScreenViewModel
 
 @Composable
-fun SpecifiedParamsList(testObject: TestObject) {
+fun SpecifiedParamsList() {
+
+    val vm = koinInject<TestScreenViewModel>()
 
     Column (
         modifier = Modifier
@@ -34,11 +37,11 @@ fun SpecifiedParamsList(testObject: TestObject) {
     ) {
         Text(text = "Номинальные параметры", style = MaterialTheme.typography.h5, textAlign = TextAlign.Center)
 
-        SpecifiedParamsItem("Наименование", testObject.selectedTI?.name.toString())
-        SpecifiedParamsItem("Схема", testObject.selectedTI?.scheme.toString())
-        SpecifiedParamsItem("Ток, A", testObject.selectedTI?.i.toString())
-        SpecifiedParamsItem("Напряжение, U", testObject.selectedTI?.u_linear.toString())
-        SpecifiedParamsItem("Мощность, P", testObject.selectedTI?.power.toString())
+        SpecifiedParamsItem("Наименование", vm.listTestItems[vm.order].selectedTI?.name.toString())
+        SpecifiedParamsItem("Схема", vm.listTestItems[vm.order].selectedTI?.scheme.toString())
+        SpecifiedParamsItem("Ток, A", vm.listTestItems[vm.order].selectedTI?.i.toString())
+        SpecifiedParamsItem("Напряжение, U", vm.listTestItems[vm.order].selectedTI?.u_linear.toString())
+        SpecifiedParamsItem("Мощность, P", vm.listTestItems[vm.order].selectedTI?.power.toString())
 
     }
 }
