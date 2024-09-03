@@ -4,7 +4,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -55,7 +54,7 @@ fun TestScreen(
         }
         TestNavigation(vm, onMainScreen)
         LogsList(vm.currentTest.controller)
-        ProtectionBar()
+        ProtectionBar(vm.currentTest.controller)
 
         if (vm.isDialog) {
             TestDialog(vm.currentTest.warning,

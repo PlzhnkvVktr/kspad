@@ -5,7 +5,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.avem.ui.viewmodels.TestScreenViewModel
 
-open class Test(): CustomController(), KoinComponent {
+
+open class Test(): TestController(), KoinComponent {
     val vm by inject<TestScreenViewModel>()
     open suspend fun start() {
         println("Hello from abstract test")

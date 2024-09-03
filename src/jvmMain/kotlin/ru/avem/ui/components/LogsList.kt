@@ -7,8 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,15 +14,12 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
 import ru.avem.data.enums.LogType
-import ru.avem.data.models.LogMessage
-import ru.avem.modules.tests.CustomController
-import ru.avem.ui.viewmodels.MainScreenViewModel
+import ru.avem.modules.tests.TestController
 
 
 @Composable
-fun LogsList (testController: CustomController) {
+fun LogsList (testController: TestController) {
     val logScrollState = rememberLazyListState()
     val scope = CoroutineScope(Dispatchers.Main)
 

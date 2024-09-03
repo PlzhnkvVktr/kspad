@@ -63,12 +63,12 @@ class TestMGR : Test() {
                         }
                     }
                 )
-                appendMessageToLog("Идет измерение...", LogType.ERROR)
+                appendToLog("Идет измерение...", LogType.ERROR)
             }
             if (isRun) delay(3000)
             var time = 65
             while (isRun && statusMGR != 4 && time-- > 0) delay(1000)
-            appendMessageToLog("Измерение завершено успешно", LogType.MESSAGE)
+            appendToLog("Измерение завершено успешно", LogType.MESSAGE)
             vm.listTestItems[it].res_mgr.value = "Измерение завершено"
         }
     }
