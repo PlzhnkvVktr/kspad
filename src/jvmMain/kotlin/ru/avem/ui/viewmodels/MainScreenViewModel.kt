@@ -50,21 +50,23 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
 
     fun selectAll () {
 
+        viewModelScope.launch {
             if (!allCheckedButton.value) {
                 allCheckedButton.value = true
-                testList.clear()
+//                testList.clear()
                 Tests.values().forEach { item ->
                     item.check.value = true
                     checkTest(item)
                 }
             } else {
                 allCheckedButton.value = false
-                Tests.values().forEach { item -> item.check.value = false }
+                Tests.values().forEach {
+                        item -> item.check.value = false
+                }
                 testList.clear()
             }
-//            testsListIterator = testList.iterator()
-//            startTestButton.value = testsLine.value.hasNext()
-
+        }
+        testsListIterator = LinkedList(testList).listIterator()
     }
 
     fun startTests(onSubmit: () -> Unit) {
@@ -72,7 +74,7 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
 //            CustomController.testObjectName.value = selectedTI.value
 //            CustomController.testObject = DBManager.getTI(CustomController.testObjectName.value)
 //            navigator.push(testsLine.value.next())
-
+    viewModelScope.launch {
         if (card1.value && factoryNumber1.value.isNotEmpty()) {
             listTestItems.add(TestObject(name = factoryNumber1, selectedTI = db.getTI(selectedTI1.value)))
         }
@@ -82,28 +84,31 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
         if (card3.value && factoryNumber3.value.isNotEmpty()) {
             listTestItems.add(TestObject(name = factoryNumber3, selectedTI = db.getTI(selectedTI3.value)))
         }
-            testsListIterator = LinkedList(Tests.values().asList().filter { it.check.value }).listIterator()
-            Tests.values().forEach { item -> item.check.value = false }
+        testsListIterator = LinkedList(Tests.values().asList().filter { it.check.value }).listIterator()
+        Tests.values().forEach { item -> item.check.value = false }
 
-            startTestButton.value = false
-            allCheckedButton.value = false
-            onSubmit()
+        startTestButton.value = false
+        allCheckedButton.value = false
+        onSubmit()
+    }
+
 //        }
     }
-    private fun checkTest (item: Tests): Boolean {
-        return when (item) {
+    private fun checkTest (item: Tests) {
+        when (item) {
             Tests.MGR -> testList.add(item)
             Tests.VIU -> testList.add(item)
             Tests.IKAS -> testList.add(item)
             Tests.HH -> testList.add(item)
             Tests.MV -> testList.add(item)
         }
+        println(testList)
     }
     private fun checkTest1 (item: Tests) {
         item.check.value = !item.check.value
     }
 
-    fun clearTestList () {
+    fun clearTestList() {
         testsListIterator = LinkedList(listOf<Tests>()).listIterator()
     }
     fun checkboxClick (
@@ -111,12 +116,15 @@ class MainScreenViewModel() : ViewModel(), KoinComponent {
         found: Tests?
     ) {
         if (found != null) {
+//            item.check.value = false
             testList.remove(found)
         } else {
+//            item.check.value = true
             checkTest(item)
+            testsListIterator = LinkedList(Tests.values().asList().filter { it.check.value }).listIterator()
         }
 
-        testsListIterator = LinkedList(Tests.values().asList().filter { it.check.value }).listIterator()
+
 
     }
 

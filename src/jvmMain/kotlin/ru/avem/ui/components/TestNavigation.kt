@@ -72,6 +72,7 @@ fun TestNavigation(
                 if (vm.currentTest.controller.isRun) {
                     vm.currentTest.controller.stop()
                 }
+                println("------ " + vm.mainVM.testsListIterator.hasNext())
                 if (!vm.mainVM.testsListIterator.hasNext()) {
                     onMainScreen()
                 } else {

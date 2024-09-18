@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import ru.avem.ui.components.ActionButton
 import ru.avem.ui.components.TabNavigationRow
 import ru.avem.ui.components.TestListContainer
 import ru.avem.ui.viewmodels.MainScreenViewModel
+import java.util.*
 
 @Composable
 fun MainScreen (
@@ -35,11 +37,11 @@ fun MainScreen (
 
     LaunchedEffect(key1 = "Main_Screen") {
         vm.testList.clear()
-        vm.clearTestList()
         vm.listTestItems.clear()
+        vm.clearTestList()
+        println("ssss")
     }
 
-    println(vm.testList)
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

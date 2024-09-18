@@ -21,13 +21,32 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
 
     var currentTest: Tests by mutableStateOf(mainVM.testsListIterator.next())
 
+//    fun next() {
+//        if (!mainVM.testsListIterator.hasNext() && mainVM.testsListIterator.next() != currentTest) return
+//        currentTest = mainVM.testsListIterator.next()
+//    }
+
     fun next() {
-        if (!mainVM.testsListIterator.hasNext() && mainVM.testsListIterator.next() != currentTest) return
-        currentTest = mainVM.testsListIterator.next()
+        val temp = currentTest
+        if (mainVM.testsListIterator.hasNext()) {
+            currentTest = mainVM.testsListIterator.next()
+            if (temp == currentTest) {
+                currentTest = mainVM.testsListIterator.next()
+            }
+        }
     }
+//    fun prev() {
+//        if (!mainVM.testsListIterator.hasPrevious() && mainVM.testsListIterator.previous() != currentTest) return
+//        currentTest = mainVM.testsListIterator.previous()
+//    }
     fun prev() {
-        if (!mainVM.testsListIterator.hasPrevious() && mainVM.testsListIterator.previous() != currentTest) return
-        currentTest = mainVM.testsListIterator.previous()
+        val temp = currentTest
+        if (mainVM.testsListIterator.hasPrevious()) {
+            currentTest = mainVM.testsListIterator.previous()
+            if (temp == currentTest) {
+                currentTest = mainVM.testsListIterator.previous()
+            }
+        }
     }
     suspend fun disableButton () {
         isButtonDisabled = false
