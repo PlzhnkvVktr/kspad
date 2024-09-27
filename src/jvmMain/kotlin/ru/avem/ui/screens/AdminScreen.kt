@@ -7,17 +7,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
 import org.koin.compose.koinInject
 import ru.avem.ui.components.ActionButton
 import ru.avem.ui.components.ScrollableLazyColumn
@@ -35,6 +33,8 @@ fun AdminScreen (
 ) {
 
     val vm = koinInject<AdminScreenViewModel>()
+
+//    var list1 = vm.list.collectAsState(initial = emptyList(), context = Dispatchers.Default)
 
     Column(
         modifier = modifier
@@ -70,25 +70,25 @@ fun AdminScreen (
                     vm.openAlertDialog.value = true
                 }
             }
-            if (vm.userList.isNotEmpty()) {
+//            if (list1.value.isNotEmpty()) {
                 ScrollableLazyColumn {
-                    items(vm.userList.size) {
-                        UserListItem(vm.userList[it],
+                    items(vm.activeUsers.value.size) {
+                        UserListItem(vm.activeUsers.value[it],
                             {
-                                    user -> vm.currentUser.value = vm.userList[it]
+                                    user -> vm.currentUser.value = vm.list.value[it]
                                 vm.isAdminMode.value = true
                             }
                         ) {user ->
-                            vm.deleteUser(vm.userList[it])
+                            vm.deleteUser(vm.activeUsers.value[it])
                         }
                     }
                 }
-            } else {
-                Row (Modifier.fillMaxSize().padding(top = 50.dp), horizontalArrangement = Arrangement.Center){
-                    Text("Пользователь не найдет", style = MaterialTheme.typography.h3)
-                }
-
-            }
+//            } else {
+//                Row (Modifier.fillMaxSize().padding(top = 50.dp), horizontalArrangement = Arrangement.Center){
+//                    Text("Пользователь не найдет", style = MaterialTheme.typography.h3)
+//                }
+//
+//            }
         }
         if (vm.openAlertDialog.value) {
             Dialog(vm)

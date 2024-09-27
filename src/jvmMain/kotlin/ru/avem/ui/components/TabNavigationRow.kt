@@ -97,8 +97,8 @@ fun TabNavigationRow(
                 }
                 OutlinedButton(
                     onClick = {
-                        if (onTestObjectScreen != null) {
-                            onTestObjectScreen()
+                        if (onProtocolScreen != null) {
+                            onProtocolScreen()
                         }
                     },
                     modifier = Modifier
@@ -128,7 +128,7 @@ fun TabNavigationRow(
                     },
                     modifier = Modifier
 //                        .border(1.dp, if(onAdminScreen == null) Color.Black else Color.White)
-                        .width(260.dp),
+                        .width(320.dp),
                     enabled = onAdminScreen != null
                 ) {
                     Row(

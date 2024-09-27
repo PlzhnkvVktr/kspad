@@ -9,6 +9,7 @@ import org.koin.core.component.inject
 import ru.avem.data.enums.DeviceID
 import ru.avem.data.enums.LogType
 import ru.avem.data.models.LogMessage
+import ru.avem.kspem.devices.parma.ParmaController
 //import ru.avem.common.af
 //import ru.avem.common.repos.AppConfig
 //import ru.avem.db.TestItem
@@ -21,6 +22,7 @@ import ru.avem.modules.devices.owen.pr.PR
 //import ru.avem.modules.tests.utils.ms
 //import ru.avem.modules.tests.utils.toDoubleOrDefault
 import ru.avem.modules.devices.avem.avem9.AVEM9
+import ru.avem.modules.devices.pm130.PM130
 //import ru.avem.modules.tests.tl.cosB
 //import ru.avem.modules.tests.tl.u_b
 //import ru.avem.viewmodels.TestScreenViewModel
@@ -37,7 +39,7 @@ open class DeviceManager: KoinComponent, ProtectionManager {
     override var isStopPressed by mutableStateOf(false)
 
     val pr102 = CM.getDeviceByID<PR>(DeviceID.DD2_1)
-//    val parma41 = CM.getDeviceByID<ParmaController>(CM.DeviceID.PAV41)
+    val parma41 = CM.getDeviceByID<PM130>(DeviceID.PAV41)
     val ATR = CM.getDeviceByID<ATR>(DeviceID.GV240)
     val pv24 = CM.getDeviceByID<AVEM4>(DeviceID.PV24)
     val pa62 = CM.getDeviceByID<AVEM7>(DeviceID.PA62)

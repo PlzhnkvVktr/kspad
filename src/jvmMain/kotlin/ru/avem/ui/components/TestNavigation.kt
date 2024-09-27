@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ fun TestNavigation(
     vm: TestScreenViewModel,
     onMainScreen: () -> Unit
 ) {
+    println("00000> " + vm.mainVM.testsListIterator.hasPrevious())
 
     Row(
         modifier = Modifier
@@ -45,7 +47,7 @@ fun TestNavigation(
                 vm.prev()
             },
             image = Icons.Default.FirstPage,
-            enabled = !vm.currentTest.controller.isRun && vm.isButtonDisabled
+            enabled = !vm.currentTest.controller.isRun && vm.isButtonDisabled && vm.mainVM.testsListIterator.hasPrevious()
         )
         MyButton(text = "Стоп",
             onClick = {

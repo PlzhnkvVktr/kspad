@@ -1,5 +1,8 @@
 package ru.avem.data.db
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -93,6 +96,11 @@ object DBManager: KoinComponent {
     fun getAllUsers(): List<User> {
         return transaction {
             User.all().toList()
+        }
+    }
+    fun getAllUsers1(): Flow<List<User>> = flow {
+         transaction {
+            User.all()
         }
     }
     fun addUser(

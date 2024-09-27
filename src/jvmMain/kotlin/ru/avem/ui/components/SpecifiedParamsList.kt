@@ -37,11 +37,11 @@ fun SpecifiedParamsList() {
     ) {
         Text(text = "Номинальные параметры", style = MaterialTheme.typography.h5, textAlign = TextAlign.Center)
 
-        SpecifiedParamsItem("Наименование", vm.listTestItems[vm.order].selectedTI?.name.toString())
-        SpecifiedParamsItem("Схема", vm.listTestItems[vm.order].selectedTI?.scheme.toString())
-        SpecifiedParamsItem("Ток, A", vm.listTestItems[vm.order].selectedTI?.i.toString())
-        SpecifiedParamsItem("Напряжение, U", vm.listTestItems[vm.order].selectedTI?.u_linear.toString())
-        SpecifiedParamsItem("Мощность, P", vm.listTestItems[vm.order].selectedTI?.power.toString())
+        SpecifiedParamsItem("Наименование", vm.testItem.selectedTI?.name.toString())
+        SpecifiedParamsItem("Схема", vm.testItem.selectedTI?.scheme.toString())
+        SpecifiedParamsItem("Ток, A", vm.testItem.selectedTI?.i.toString())
+        SpecifiedParamsItem("Напряжение, U", vm.testItem.selectedTI?.u_linear.toString())
+        SpecifiedParamsItem("Мощность, P", vm.testItem.selectedTI?.power.toString())
 
     }
 }

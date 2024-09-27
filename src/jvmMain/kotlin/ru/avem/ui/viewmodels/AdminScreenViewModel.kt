@@ -1,11 +1,16 @@
 package ru.avem.ui.viewmodels
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -17,7 +22,14 @@ class AdminScreenViewModel: ViewModel(), KoinComponent {
     val db by inject<DBManager>()
 
     private val scope = CoroutineScope(Dispatchers.Default)
-    var userList = mutableStateListOf<User>()
+//    var userList = mutableStateListOf<User>()
+
+    var list = db.getAllUsers1().stateIn(scope, SharingStarted.Lazily, emptyList())
+
+    val activeUsers = flow<List<User>> { emit(db.getAllUsers()) }
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+//    var list1 = list.collectAsState(initial = emptyList(), context = Dispatchers.Default)
     var textFind = mutableStateOf("")
     val openAlertDialog = mutableStateOf(false)
     var switchOn = mutableStateOf(false)
@@ -37,15 +49,15 @@ class AdminScreenViewModel: ViewModel(), KoinComponent {
     }
     fun getUsers() {
         scope.launch {
-            userList.clear()
-            userList.addAll(db.getAllUsers())
+//            userList.clear()
+//            userList.addAll(db.getAllUsers1())
         }
     }
     fun performSearch(predicate: String) {
         scope.launch {
             val values = db.findUser(predicate)
-            userList.clear()
-            userList.addAll(values)
+//            userList.clear()
+//            userList.addAll(values)
         }
     }
 
@@ -68,7 +80,7 @@ class AdminScreenViewModel: ViewModel(), KoinComponent {
     fun deleteUser(user: User) {
         scope.launch {
             db.deleteUser(user)
-            userList.remove(user)
+//            userList.remove(user)
         }
     }
     fun updateUser(user: User) {

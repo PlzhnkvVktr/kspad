@@ -3,16 +3,20 @@ package ru.avem.modules.tests
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
+import ru.avem.common.af
+import ru.avem.common.toDoubleOrDefault
 import ru.avem.data.enums.DeviceID
 import ru.avem.data.enums.LogType
 import ru.avem.data.repos.AppConfig
 import ru.avem.modules.devices.avem.atr.ATRModel
+import ru.avem.modules.devices.avem.avem4.AVEM4Model
+import ru.avem.modules.devices.avem.avem7.AVEM7Model
+import ru.avem.modules.devices.pm130.PM130Model
+import ru.avem.ui.viewmodels.TestScreenViewModel
 import kotlin.experimental.and
+import kotlin.math.abs
 
 open class TestController(): DeviceManager() {
 
@@ -68,7 +72,7 @@ open class TestController(): DeviceManager() {
 
     suspend fun initPR() {
         pr102.checkResponsibility()
-        val scope = CoroutineScope(Dispatchers.Default)
+//        val scope = CoroutineScope(Dispatchers.Default)
         appendToLog("Инициализация БСУ...", LogType.MESSAGE)
         isStartPressed = false
         isStopPressed = false
@@ -95,7 +99,7 @@ open class TestController(): DeviceManager() {
 
             }
             delay(1000)
-            scope.launch {
+            withContext(Dispatchers.Default) {
                 while (isRun) {
                     delay(100)
                     if (!pr102.isResponding) {
@@ -146,6 +150,122 @@ open class TestController(): DeviceManager() {
         ktrVoltage = 1.0
         voltAverage = 0.0
         ktrAmperage = 1.0
+    }
+
+    fun initAVEM4 (vm: TestScreenViewModel) {
+        with(pv61) {
+            checkResponsibility()
+            if (!isResponding) {
+                appendToLog("АВЭМ-4 не отвечает", LogType.ERROR)
+                isRun = false
+//                    appendMessageToLog("PV21 не отвечает", LogType.ERROR)
+            } else {
+                ru.avem.modules.devices.CM.startPoll(DeviceID.PV61.name, AVEM4Model.RMS_VOLTAGE) { value ->
+                    vm.testItem.ikas_v.value = (value.toDouble()).af()
+                }
+            }
+        }
+    }
+
+    fun initAVEM7 (vm: TestScreenViewModel) {
+        with(pa62) {
+            checkResponsibility()
+            if (!isResponding) {
+                appendToLog("АВЕМ-7 не отвечает", LogType.ERROR)
+                isRun = false
+            } else {
+                ru.avem.modules.devices.CM.startPoll(DeviceID.PA62.name, AVEM7Model.AMPERAGE) { value ->
+                    vm.testItem.ikas_i.value = (value.toDouble()).af()
+                    if (!pa62.isResponding) {
+                        appendToLog("PV21 не отвечает", LogType.ERROR)
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun initPM130(vm: TestScreenViewModel) {
+        appendToLog("Инициализация PM130...", LogType.MESSAGE)
+        parma41.checkResponsibility()
+
+        if (isRun) delay(1000)
+        if (!parma41.isResponding) {
+            appendToLog("PM130 не отвечает", LogType.ERROR)
+            isRun = false
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.U_AB_REGISTER) { value ->
+            vm.u_a.value = (value.toDouble() * ktrVoltage).af()
+            if (!parma41.isResponding && isRun) {
+                appendToLog("PM130 не отвечает", LogType.ERROR)
+                isRun = false
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.U_BC_REGISTER) { value ->
+            vm.u_uv.value = (value.toDouble() * ktrVoltage).af()
+            if (value.toDouble() * ktrVoltage > vm.testItem.selectedTI!!.u_linear.toInt() * 1.1) {
+                appendToLog(("Overvoltage"), LogType.ERROR)
+                isRun = false
+            }
+            if (!parma41.isResponding && isRun) {
+                appendToLog("PM130 не отвечает", LogType.ERROR)
+                isRun = false
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.U_CA_REGISTER) { value ->
+            vm.u_vw.value = (value.toDouble() * ktrVoltage).af()
+            if (value.toDouble() * ktrVoltage > vm.testItem.selectedTI!!.u_linear.toInt() * 1.1) {
+                appendToLog(("Overvoltage"), LogType.ERROR)
+                isRun = false
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.U_CA_REGISTER) { value ->
+            vm.u_wu.value = (value.toDouble() * ktrVoltage).af()
+            voltAverage =
+                (vm.u_uv.value.toDoubleOrDefault(0.0)
+                        + vm.u_vw.value.toDoubleOrDefault(0.0)
+                        + vm.u_wu.value.toDoubleOrDefault(0.0)) / 3 * ktrVoltage
+            if (value.toDouble() * ktrVoltage > vm.testItem.selectedTI!!.u_linear.toInt() * 1.1) {
+                appendToLog(("Overvoltage"), LogType.ERROR)
+                isRun = false
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.I_A_REGISTER) {
+            vm.i_u.value = (it.toDouble() * ktrAmperage).af()
+            if (isRun) {
+                if (it.toDouble() > 6.0) {
+                    appendToLog("Превышено допустимое значение тока")
+                    isRun = false
+                }
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.I_B_REGISTER) {
+            vm.i_v.value = (it.toDouble() * ktrAmperage).af()
+            if (isRun) {
+                if (it.toDouble() > 6.0) {
+                    appendToLog("Превышено допустимое значение тока")
+                    isRun = false
+                }
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.I_C_REGISTER) {
+            vm.i_w.value = (it.toDouble() * ktrAmperage).af()
+            if (isRun) {
+                if (it.toDouble() > 6.0) {
+                    appendToLog("Превышено допустимое значение тока")
+                    isRun = false
+                }
+            }
+        }
+        CM.startPoll(DeviceID.PAV41.name, PM130Model.COS_REGISTER) {
+            vm.cos.value = abs(it.toDouble()).af()
+        }
+
+//        ru.avem.modules.devices.CM.startPoll(DeviceID.PAV41.name, parma41.model.U_A_REGISTER) {
+//            u_b = it.toDouble()
+//        }
+//        ru.avem.modules.devices.CM.startPoll(DeviceID.PAV41.name, PM130Model.P_A_REGISTER) {
+//            vm.pA.value = abs(it.toDouble() * ktrAmperage * ktrVoltage).af()
+//        }
     }
 
     suspend fun initAVEM9 () {

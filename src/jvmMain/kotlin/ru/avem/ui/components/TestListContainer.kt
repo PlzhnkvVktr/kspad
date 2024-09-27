@@ -37,8 +37,8 @@ fun TestListContainer() {
                     .padding(5.dp)
                     .clickable {
                         item.check.value = !item.check.value
-                        val found = vm.testList.find { it.testName == item.testName }
-                        vm.checkboxClick(item, found)
+//                        val found = vm.testList.find { it.testName == item.testName }
+//                        vm.checkboxClick(item, found)
                 },
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -46,8 +46,8 @@ fun TestListContainer() {
                     checked = item.check.value,
                     onCheckedChange = { it ->
                         item.check.value = it
-                        val found = vm.testList.find { it.testName == item.testName }
-                        vm.checkboxClick(item, found)
+//                        val found = vm.testList.find { it.testName == item.testName }
+//                        vm.checkboxClick(item, found)
                     }
                 )
                     Text(item.testName, fontSize = 26.sp)

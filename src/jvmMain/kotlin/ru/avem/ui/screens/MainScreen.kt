@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import composables.ui.ComboBox
 import org.koin.compose.koinInject
 import ru.avem.components.TestObjectCard
+import ru.avem.data.enums.Tests
 import ru.avem.ui.components.ActionButton
 import ru.avem.ui.components.TabNavigationRow
 import ru.avem.ui.components.TestListContainer
@@ -36,10 +37,8 @@ fun MainScreen (
     val vm = koinInject<MainScreenViewModel>()
 
     LaunchedEffect(key1 = "Main_Screen") {
-        vm.testList.clear()
-        vm.listTestItems.clear()
+        Tests.entries.forEach { item -> item.check.value = false }
         vm.clearTestList()
-        println("ssss")
     }
 
     Column(
@@ -48,60 +47,60 @@ fun MainScreen (
         verticalArrangement = Arrangement.Center
     ) {
         TabNavigationRow(null, onProtocolScreen, onTestObjectScreen, onAdminScreen)
+//        Row (
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .fillMaxHeight(0.35f),
+//            horizontalArrangement = Arrangement.SpaceAround,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            TestObjectCard(vm, vm.factoryNumber1, vm.selectedTI1, vm.card1)
+//            TestObjectCard(vm, vm.factoryNumber2, vm.selectedTI2, vm.card2)
+//            TestObjectCard(vm, vm.factoryNumber3, vm.selectedTI3, vm.card3)
+//        }
         Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.35f),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
-            TestObjectCard(vm, vm.factoryNumber1, vm.selectedTI1, vm.card1)
-            TestObjectCard(vm, vm.factoryNumber2, vm.selectedTI2, vm.card2)
-            TestObjectCard(vm, vm.factoryNumber3, vm.selectedTI3, vm.card3)
+            Text("Заполните все поля",  style = MaterialTheme.typography.h3)
         }
-//        Row (
-//            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
-//            horizontalArrangement = Arrangement.Center
-//        ) {
-//            Text("Заполните все поля",  style = MaterialTheme.typography.h3)
-//        }
-//        Row (
-//            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
-//            horizontalArrangement = Arrangement.SpaceAround,
-//            Alignment.CenterVertically
-//        ) {
-//            Text(
-//                modifier = Modifier.width(200.dp),
-//                text = "Заводской номер",
-//                style = MaterialTheme.typography.h5,
-//            )
-//            OutlinedTextField(
-//                value = vm.factoryNumber,
-//                modifier = Modifier
-//                    .fillMaxWidth(0.8f),
-//                textStyle = MaterialTheme.typography.h5,
-//                placeholder =  {
-//                    Text(
-//                        text = "Введите серийный номер",
-//                        style = MaterialTheme.typography.h5,
-//                        modifier = Modifier.padding(top = 6.dp),
-//                        color = Color.Red
-//                    ) },
-//                onValueChange = {vm.factoryNumber = it}
-//            )
-//        }
-//        Row (
-//            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
-//            horizontalArrangement = Arrangement.SpaceAround,
-//            Alignment.CenterVertically
-//        ) {
-//            Text(
-//                modifier = Modifier.width(200.dp),
-//                text = "Тип",
-//                style = MaterialTheme.typography.h5
-//            )
-//            ComboBox(vm.selectedTI, modifier = Modifier.fillMaxWidth(0.8f), items = vm.typesTI)
-//        }
+        Row (
+            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.width(200.dp),
+                text = "Заводской номер",
+                style = MaterialTheme.typography.h5,
+            )
+            OutlinedTextField(
+                value = vm.factoryNumber,
+                modifier = Modifier
+                    .fillMaxWidth(0.8f),
+                textStyle = MaterialTheme.typography.h5,
+                placeholder =  {
+                    Text(
+                        text = "Введите серийный номер",
+                        style = MaterialTheme.typography.h5,
+                        modifier = Modifier.padding(top = 6.dp),
+                        color = Color.Red
+                    ) },
+                onValueChange = {vm.factoryNumber = it}
+            )
+        }
+        Row (
+            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.width(200.dp),
+                text = "Тип",
+                style = MaterialTheme.typography.h5
+            )
+            ComboBox(vm.selectedTI, modifier = Modifier.fillMaxWidth(0.8f), items = vm.typesTI)
+        }
         Row (
             modifier = Modifier.fillMaxWidth().padding(top = 10.dp).fillMaxHeight(),
             horizontalArrangement = Arrangement.SpaceAround,
@@ -121,12 +120,13 @@ fun MainScreen (
                 ActionButton(
                     text = "Старт",
                     pic = Icons.Filled.PlayArrow,
-//                    disabled = (
-//                            vm.testList.isNotEmpty()
-////                            vm.startTestButton.value
-////                                    && vm.factoryNumber.isNotEmpty()
-//                            ),
-                    onClick = { if (vm.testsListIterator.hasNext()) vm.startTests(onTestScreen) }
+                    disabled = (
+                            true
+//                            !vm.testsListIterator.hasNext()
+//                            vm.startTestButton.value
+//                                    && vm.factoryNumber.isNotEmpty()
+                            ),
+                    onClick = { vm.startTests(onTestScreen) }
                 )
             }
             TestListContainer()

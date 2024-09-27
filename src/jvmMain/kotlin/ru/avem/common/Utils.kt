@@ -9,6 +9,11 @@ import kotlin.io.path.writeText
 import kotlin.math.abs
 
 fun String.af(): String = this.toDoubleOrNull()?.af() ?: this
+fun String?.toDoubleOrDefault(default: Double) = this?.cleanForParsing()?.toDoubleOrNull() ?: default
+fun String?.cleanForParsing(): String? = when {
+    this == null -> null
+    else -> replace(" ", "").replace(" ", "").replace(',', '.').toLowerCase()
+}
 fun Number.af(): String = this.toDouble().af()
 fun Double.af(): String = with(abs(this)) {
     when {

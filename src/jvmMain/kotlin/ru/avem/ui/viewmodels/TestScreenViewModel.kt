@@ -54,9 +54,9 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
         isButtonDisabled = true
     }
 
-//    var testItem = TestObject()
+    var testItem = mainVM.testItem
 
-    val listTestItems = mainVM.listTestItems
+//    val listTestItems = mainVM.listTestItems
 
     var u_a: MutableState<String> = mutableStateOf("")
     var u_uv: MutableState<String> = mutableStateOf("")
@@ -67,5 +67,6 @@ class TestScreenViewModel() : ViewModel(), KoinComponent {
     var i_w: MutableState<String> = mutableStateOf("")
     var cos: MutableState<String> = mutableStateOf("")
     var pA: MutableState<String> = mutableStateOf("")
+
 
 }
